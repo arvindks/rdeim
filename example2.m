@@ -78,12 +78,12 @@ for i = 2:ns
     % RRQR
     tic
     for j = 1:nreps
-        [pr,~,err] = hybrid(ur,'det','pqr','method','const');
+        [pr,~,err,dr] = hybrid(ur,'det','pqr','method','const');
     end
     hybridtime(i) = toc/nreps;  
     Errcst2(i) = err;
-    
-    Fh = ur*(ur(pr,:)\F(pr,:));
+    Dr = spdiags(dr,0,length(dr),length(dr));
+    Fh = ur*((Dr*ur(pr,:))\(Dr*F(pr,:)));
     
     
     % LS sampling
@@ -97,7 +97,7 @@ for i = 2:ns
     end
     lstime(i) = toc/nreps;
     
-    Errcst4(i) = err;   s = length(d);  D = spdiags(d,1:1,s,s);
+    Errcst4(i) = err;   s = length(d);  D = spdiags(d,0,s,s);
     Fh = ur*(D*ur(pr,:)\(D*F(pr,:)));
     
     Err = F-Fh;
@@ -129,7 +129,7 @@ set(gca, 'FontSize',18)
 legend({'PQR','Hybrid', 'LS'}, 'location','best'); %'LS \epsilon = 0.99, \delta = 0.1',
 xlabel('Target rank','FontSize',18)
 title('Error constant','FontSize',20)
-print 'figs/example2_errc' -depsc
+%print 'figs/example2_errc' -depsc
 
 figure,
 [pr,pls,err] = hybrid(ur,'det','rrqr','method','const');
