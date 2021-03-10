@@ -1,4 +1,5 @@
 function [p,d,err] = randls(V,varargin)
+    % Code from the kappaSQ package:https://arxiv.org/pdf/1402.0642.pdf
 
     params = inputParser;
     params.addParameter('epsilon', 0.99, @(x) x > 0); %Accuracy
@@ -46,7 +47,7 @@ end
 
 function [p,SQ] = sample_leverage(Q,c,li)
     [m,n] = size(Q);
-    p = randsample(m,c,true,li/n);
+    p = randsample(m,c,true,li/n); % We are setting beta = 1 here.
     SQ = (1/sqrt(c/m))*Q(p,:);
 end
 

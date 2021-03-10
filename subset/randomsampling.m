@@ -1,5 +1,6 @@
 function [ind, SQ] = randomsampling(Q, c, varargin)
-
+    % Code from the kappaSQ package:https://arxiv.org/pdf/1402.0642.pdf
+    
     params = inputParser;
     params.addParameter('sampling','Bernoulli');
     params.KeepUnmatched = true;
@@ -7,7 +8,6 @@ function [ind, SQ] = randomsampling(Q, c, varargin)
 
     
     sampling = params.Results.sampling;
-
     m = size(Q,1);
     
     if strcmp(sampling,'Bernoulli')
